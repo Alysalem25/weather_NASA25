@@ -29,7 +29,7 @@ function InteractiveMapComponent({ selectedLocation, onLocationSelect }: Interac
       try {
         // Dynamic import of Leaflet only on client side
         const L = await import('leaflet');
-        await import('leaflet/dist/leaflet.css');
+        // await import('leaflet/dist/leaflet.css');
         
         // Fix for default markers in Leaflet with Next.js
         delete (L.Icon.Default.prototype as any)._getIconUrl;

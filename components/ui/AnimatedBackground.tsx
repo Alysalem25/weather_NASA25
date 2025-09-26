@@ -132,7 +132,7 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
       return '#7DD3FC'; // Sky blue for clear weather
     }
   };
-
+  weatherCondition = "snow";
   const getParticleType = () => {
     switch (weatherCondition) {
       case 'rain':

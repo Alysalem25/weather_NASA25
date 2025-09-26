@@ -12,6 +12,7 @@ import AnimatedBackground from '@/components/ui/AnimatedBackground';
 import { CurrentWeather, LocationData, WeatherAlert as WeatherAlertType } from '@/lib/weather-service';
 import { RealWeatherData } from '@/lib/real-weather-service';
 import { toast } from 'sonner';
+import { format } from 'node:path';
 
 export default function Home() {
   const [currentWeather, setCurrentWeather] = useState<RealWeatherData | null>(null);
@@ -21,6 +22,23 @@ export default function Home() {
   const [locationPermission, setLocationPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt');
   const [useRealData, setUseRealData] = useState(true);
 
+  const [datam, setDatam] = useState(null); // store API response here
+  const [isLoading, setIsLoading] = useState(true);
+
+   useEffect(() => {
+    fetch(
+      "https://api.openweathermap.org/data/2.5/forecast?q=Cairo&appid=691ff23b4f028e2cb9de59020dcd0520&units=metric"
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setDatam(json); // save JSON into state
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
   const features = [
     {
       icon: <Satellite className="w-8 h-8" />,
@@ -131,6 +149,20 @@ export default function Home() {
     setAlerts(prev => prev.filter((_, i) => i !== index));
   };
 
+ useEffect(() => {
+    fetch(
+      "https://api.openweathermap.org/data/2.5/forecast?q=Cairo&appid=691ff23b4f028e2cb9de59020dcd0520&units=metric"
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setDatam(json); // save JSON into state
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
   useEffect(() => {
     // Try to get location on component mount
     getCurrentLocation();
@@ -328,7 +360,46 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-     
+
+{isLoading ? (
+  <p>Loading...</p>
+) : (
+  <div>
+    <h1 className="text-4xl font-bold text-red-500">{datam?.cod}</h1>
+
+    <div>
+      {datam?.list?.map((item) => (
+        <div
+          key={item.dt}
+          className="mb-4 p-4 border border-gray-300 rounded-lg bg-white/10"
+        >
+          {/* Date/Time */}
+          <p className="text-sm text-black mb-1">
+            {new Date(item.dt * 1000).toLocaleString("en-US", {
+              weekday: "long",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+
+          {/* Weather Description */}
+          <p className="text-lg font-semibold text-black mb-2">
+            {item.weather[0].description}
+          </p>
+
+          {/* Temperature / Humidity / Wind */}
+          <p className="text-sm text-black">
+            Temp: {item.main.temp}°C | Humidity: {item.main.humidity}% | Wind:{" "}
+            {item.wind.speed} m/s
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
+
     </div>
   );
 }

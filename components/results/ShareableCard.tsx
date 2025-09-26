@@ -48,11 +48,11 @@ export default function ShareableCard({ data }: ShareableCardProps) {
 
     // Add weather data
     const conditions = [
-      { name: 'Hot', value: data.hot, y: 220 },
-      { name: 'Cold', value: data.cold, y: 270 },
-      { name: 'Windy', value: data.windy, y: 320 },
-      { name: 'Wet', value: data.wet, y: 370 },
-      { name: 'Uncomfortable', value: data.uncomfortable, y: 420 },
+      { name: 'Temperature', value: data.temp, y: 220 },
+      { name: 'Feels Like', value: data.feelsLike, y: 270 },
+      { name: 'Wind Speed', value: data.windSpeed, y: 320 },
+      { name: 'Humidity', value: data.humidity, y: 370 },
+      { name: 'Uncomfortable', value: data.feelsLike, y: 420 },
     ];
 
     ctx.font = '20px Arial';
@@ -131,7 +131,7 @@ export default function ShareableCard({ data }: ShareableCardProps) {
         <p className="text-sm text-slate-300">
           Check out my NASA weather forecast! 🌟<br />
           📍 {locationLabel}<br />
-          📅 {normalizedDate ? normalizedDate.toDateString() : 'Unknown date'}<br />
+          📅 {normalizedDate ? normalizedDate.toDateString() : 'Unknown date'}<br/>
           🎯 Perfect for {activityLabel}
         </p>
       </div>

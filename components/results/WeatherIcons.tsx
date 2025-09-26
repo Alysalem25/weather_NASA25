@@ -10,11 +10,11 @@ interface WeatherIconsProps {
 
 export default function WeatherIcons({ data }: WeatherIconsProps) {
   const conditions = [
-    { name: 'Very Hot', value: data.hot, icon: '☀️', color: 'text-orange-400' },
-    { name: 'Very Cold', value: data.cold, icon: '❄️', color: 'text-blue-400' },
-    { name: 'Very Windy', value: data.windy, icon: '💨', color: 'text-gray-400' },
-    { name: 'Very Wet', value: data.wet, icon: '🌧️', color: 'text-blue-300' },
-    { name: 'Uncomfortable', value: data.uncomfortable, icon: '😓', color: 'text-yellow-400' },
+    { name: 'Temperature', value: data.temp, icon: '', color: 'text-orange-400' },
+    { name: 'Feels Like', value: data.feelsLike, icon: '', color: 'text-blue-400' },
+    { name: 'Wind Speed', value: data.windSpeed, icon: '', color: 'text-gray-400' },
+    { name: 'Humidity', value: data.humidity, icon: '', color: 'text-blue-300' },
+    { name: 'Uncomfortable', value: data.feelsLike, icon: '', color: 'text-yellow-400' },
   ];
 
   return (

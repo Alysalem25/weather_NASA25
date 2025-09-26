@@ -16,12 +16,13 @@ interface WeatherChartProps {
 }
 
 export default function WeatherChart({ data }: WeatherChartProps) {
+  console.log('WeatherChart data:', data);
   const chartData = [
-    { subject: 'Very Hot', A: data.hot, fullMark: 100 },
-    { subject: 'Very Cold', A: data.cold, fullMark: 100 },
-    { subject: 'Very Windy', A: data.windy, fullMark: 100 },
-    { subject: 'Very Wet', A: data.wet, fullMark: 100 },
-    { subject: 'Uncomfortable', A: data.uncomfortable, fullMark: 100 },
+    { subject: 'Temperature', A: data.temp, fullMark: 100 },
+    { subject: 'Feels Like', A: data.feelsLike, fullMark: 100 },
+    { subject: 'Wind Speed', A: data.windSpeed, fullMark: 100 },
+    { subject: 'Humidity', A: data.humidity, fullMark: 100 },
+    { subject: 'Uncomfortable', A: data.feelsLike, fullMark: 100 },
   ];
 
   return (

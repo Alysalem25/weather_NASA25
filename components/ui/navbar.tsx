@@ -18,7 +18,8 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Weather Dashboard', href: '/dashboard', icon: Map },
+    { name: 'Weather Dashboard', href: '/app/dashboard', icon: Map },
+{ name: 'Weather Dashboard', href: '/dashboard', icon: Map }
     // { name: 'Real Weather Demo', href: '/demo', icon: Cloud },
   ];
 
@@ -40,14 +41,15 @@ export default function Navbar() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               {navItems.map((item) => (
-                <Link
+                <a
                   key={item.name}
                   href={item.href}
+                  target="_blank"
                   className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors duration-200"
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.name}</span>
-                </Link>
+                </a>
               ))}
 
               {/* Widget Toggle Button */}

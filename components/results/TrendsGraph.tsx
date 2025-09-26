@@ -25,10 +25,10 @@ export default function TrendsGraph({ data }: TrendsGraphProps) {
     
     return years.map(year => ({
       year,
-      hot: Math.max(0, Math.min(100, data.hot + (Math.random() - 0.5) * 40)),
-      cold: Math.max(0, Math.min(100, data.cold + (Math.random() - 0.5) * 40)),
-      wet: Math.max(0, Math.min(100, data.wet + (Math.random() - 0.5) * 40)),
-      windy: Math.max(0, Math.min(100, data.windy + (Math.random() - 0.5) * 40)),
+      Temperature: Math.max(0, Math.min(100, data.temp + (Math.random() - 0.5) * 40)),
+      Feels_Like: Math.max(0, Math.min(100, data.feelsLike + (Math.random() - 0.5) * 40)),
+      Humidity: Math.max(0, Math.min(100, data.humidity + (Math.random() - 0.5) * 40)),
+      Wind_Speed: Math.max(0, Math.min(100, data.windSpeed + (Math.random() - 0.5) * 40)),
     }));
   };
 
@@ -61,31 +61,31 @@ export default function TrendsGraph({ data }: TrendsGraphProps) {
             <Legend />
             <Line 
               type="monotone" 
-              dataKey="hot" 
+              dataKey="Temperature" 
               stroke="#f97316" 
               strokeWidth={2}
-              name="Hot %"
+              name="Temperature %"
             />
             <Line 
               type="monotone" 
-              dataKey="cold" 
+              dataKey="Feels_Like" 
               stroke="#3b82f6" 
               strokeWidth={2}
-              name="Cold %"
+              name="Feels Like %"
             />
             <Line 
               type="monotone" 
-              dataKey="wet" 
+              dataKey="Wind_Speed" 
               stroke="#06b6d4" 
               strokeWidth={2}
-              name="Wet %"
+              name="Wind Speed %"
             />
             <Line 
               type="monotone" 
-              dataKey="windy" 
+              dataKey="Humidity" 
               stroke="#8b5cf6" 
               strokeWidth={2}
-              name="Windy %"
+              name="Humidity %"
             />
           </LineChart>
         </ResponsiveContainer>

@@ -20,11 +20,11 @@ export interface Location {
 }
 
 export interface WeatherData {
-  hot: number;
-  cold: number;
-  windy: number;
-  wet: number;
-  uncomfortable: number;
+  temp: number;
+  feelsLike: number;
+  humidity: number;
+  windSpeed: number;
+  description: string;
   location: Location;
   date: Date;
   activity: string;
@@ -44,57 +44,46 @@ export default function Dashboard() {
     }
 
     setLoading(true);
-    
+
     try {
-      console.log('Generating weather report with data:', {
+      console.log('Generating weather report with:', {
         location: selectedLocation,
         date: selectedDate,
         activity: selectedActivity,
       });
 
-      const response = await fetch('/api/weather', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          location: selectedLocation,
-          date: selectedDate,
-          activity: selectedActivity,
-        }),
-      });
-
-      console.log('Weather API response status:', response.status);
-      console.log('Weather API response headers:', Object.fromEntries(response.headers.entries()));
-
-      // Check if response is JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const textResponse = await response.text();
-        console.error('Non-JSON response received:', textResponse);
-        throw new Error(`Expected JSON response but got: ${contentType}`);
-      }
+      // Fetch data from OpenWeatherMap
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${selectedLocation.lat}&lon=${selectedLocation.lng}&appid=691ff23b4f028e2cb9de59020dcd0520&units=metric`
+      );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Weather API error response:', errorData);
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        throw new Error(`Weather API error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log('Weather API response data:', data);
-      
-      // Validate the response data
-      if (!data || typeof data.hot !== 'number') {
-        throw new Error('Invalid weather data received');
-      }
-      
-      setWeatherData(data);
+      const json = await response.json();
+      console.log('Weather API response:', json);
+
+      const mappedData: WeatherData = {
+        temp: json.main.temp,
+        feelsLike: json.main.feels_like,
+        humidity: json.main.humidity,
+        windSpeed: json.wind.speed,
+        description: json.weather[0]?.description || 'N/A',
+        location: selectedLocation,
+        date: selectedDate,
+        activity: selectedActivity,
+      };
+
+      setWeatherData(mappedData);
       toast.success('Weather report generated successfully!');
     } catch (error) {
       console.error('Weather report generation failed:', error);
-      toast.error(`Failed to generate weather report: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(
+        `Failed to generate weather report: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`
+      );
     } finally {
       setLoading(false);
     }
@@ -120,7 +109,7 @@ export default function Dashboard() {
       a.download = `weather-report-${weatherData.date.toISOString().split('T')[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      
+
       toast.success('Data exported successfully!');
     } catch (error) {
       toast.error('Failed to export data');
@@ -165,7 +154,7 @@ export default function Dashboard() {
             </Link>
             <h1 className="text-3xl font-bold glow-text">Weather Dashboard</h1>
           </div>
-          
+
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -205,7 +194,9 @@ export default function Dashboard() {
               {selectedLocation && (
                 <div className="mt-4 p-3 bg-white/5 rounded-lg">
                   <p className="text-sm text-slate-300">
-                    📍 {selectedLocation.address || `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`}
+                    📍{' '}
+                    {selectedLocation.address ||
+                      `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`}
                   </p>
                 </div>
               )}

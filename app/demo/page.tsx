@@ -197,12 +197,12 @@ export default function WeatherDemo() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-12"
           >
-            <CurrentWeatherCard
+            {/* <CurrentWeatherCard
               weather={currentWeather}
               location={location}
               loading={loading}
               onRefresh={() => fetchRealWeather(location.lat, location.lng)}
-            />
+            /> */}
           </motion.div>
         )}
 

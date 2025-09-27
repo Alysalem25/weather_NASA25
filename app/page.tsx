@@ -347,7 +347,7 @@ export default function Home() {
               Join thousands of adventurers who trust NASA data to plan their perfect outdoor experiences. 
               From hiking trails to beach days, we've got you covered.
             </p>
-            <Link href="/dashboard">
+            {/* <a href="/dashboard">
               <Button
                 variant="outline"
                 size="lg"
@@ -356,7 +356,7 @@ export default function Home() {
                 Get Started Now
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            </Link>
+            </a> */}
           </div>
         </motion.div>
       </div>

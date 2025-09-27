@@ -154,29 +154,6 @@ export default function Dashboard() {
             </Link>
             <h1 className="text-3xl font-bold glow-text">Weather Dashboard</h1>
           </div>
-
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportData}
-              disabled={!weatherData}
-              className="border-white/20 hover:bg-white/10"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={shareReport}
-              disabled={!weatherData}
-              className="border-white/20 hover:bg-white/10"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">

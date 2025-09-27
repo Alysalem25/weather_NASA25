@@ -54,7 +54,7 @@ export default function Dashboard() {
 
       // Fetch data from OpenWeatherMap
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${selectedLocation.lat}&lon=${selectedLocation.lng}&appid=691ff23b4f028e2cb9de59020dcd0520&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${selectedLocation.lat}&lon=${selectedLocation.lng}&appid=854c208d7b267ae1f67c90342e74c1d1&units=metric`
       );
 
       if (!response.ok) {

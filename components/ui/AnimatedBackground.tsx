@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import { motion } from 'framer-motion';
 
 interface AnimatedBackgroundProps {
@@ -12,6 +13,7 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [particles, setParticles] = useState<any[]>([]);
   const animationRef = useRef<number>();
+  const [weather, setWeather] = useState<any>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,11 +34,11 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
     const initParticles = () => {
       const newParticles = [];
       const particleCount = getParticleCount();
-      
+
       for (let i = 0; i < particleCount; i++) {
         newParticles.push(createParticle(canvas.width, canvas.height));
       }
-      
+
       setParticles(newParticles);
     };
 
@@ -44,7 +46,7 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particles.forEach((particle, index) => {
         updateParticle(particle, canvas.width, canvas.height);
         drawParticle(ctx, particle);
@@ -61,7 +63,7 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
         cancelAnimationFrame(animationRef.current);
       }
     };
-    }, [particles, weatherCondition, temperature]);
+  }, [particles, weatherCondition, temperature]);
 
   const getParticleCount = () => {
     switch (weatherCondition) {
@@ -132,7 +134,37 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
       return '#7DD3FC'; // Sky blue for clear weather
     }
   };
-  weatherCondition = "snow";
+  // weatherCondition = "snow";
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const API_key = '691ff23b4f028e2cb9de59020dcd0520';
+            fetch(
+              `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&units=metric`
+            )
+              .then((res) => {
+                if (!res.ok) {
+                  throw new Error('Failed to fetch weather data');
+                }
+                return res.json();
+              })
+              .then((data) => {
+                weatherCondition = data.weather[0].main.toLowerCase();
+                setWeather(data);
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          },
+          (err) => {
+            console.log('Location access denied.');
+          }
+        );
+      } else {
+        console.log('Geolocation is not supported in this browser.');
+      }
   const getParticleType = () => {
     switch (weatherCondition) {
       case 'rain':
@@ -192,20 +224,20 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
   const drawStar = (ctx: CanvasRenderingContext2D, x: number, y: number, outerRadius: number, innerRadius: number, points: number) => {
     const angle = Math.PI / points;
     ctx.beginPath();
-    
+
     for (let i = 0; i < 2 * points; i++) {
       const radius = i % 2 === 0 ? outerRadius : innerRadius;
       const currentAngle = i * angle;
       const px = x + Math.cos(currentAngle) * radius;
       const py = y + Math.sin(currentAngle) * radius;
-      
+
       if (i === 0) {
         ctx.moveTo(px, py);
       } else {
         ctx.lineTo(px, py);
       }
     }
-    
+
     ctx.closePath();
     ctx.fill();
   };
@@ -213,20 +245,20 @@ export default function AnimatedBackground({ weatherCondition, temperature }: An
   return (
     <div className="fixed inset-0 -z-10">
       {/* Gradient background based on weather */}
-      <div 
+      <div
         className="absolute inset-0 transition-all duration-1000"
         style={{
           background: getBackgroundGradient(),
         }}
       />
-      
+
       {/* Animated particles canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
         style={{ opacity: 0.6 }}
       />
-      
+
       {/* Overlay gradient for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/20 to-slate-900/40" />
     </div>

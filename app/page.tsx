@@ -285,7 +285,7 @@ export default function Home() {
               about your outdoor adventures. Know before you go.
             </p>
           </motion.div>
-
+{/* 
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -300,7 +300,7 @@ export default function Home() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Features Grid */}
@@ -360,43 +360,6 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-
-{isLoading ? (
-  <p>Loading...</p>
-) : (
-  <div>
-    <h1 className="text-4xl font-bold text-red-500">{datam?.cod}</h1>
-
-    <div>
-      {datam?.list?.map((item) => (
-        <div
-          key={item.dt}
-          className="mb-4 p-4 border border-gray-300 rounded-lg bg-white/10"
-        >
-          {/* Date/Time */}
-          <p className="text-sm text-black mb-1">
-            {new Date(item.dt * 1000).toLocaleString("en-US", {
-              weekday: "long",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-
-          {/* Weather Description */}
-          <p className="text-lg font-semibold text-black mb-2">
-            {item.weather[0].description}
-          </p>
-
-          {/* Temperature / Humidity / Wind */}
-          <p className="text-sm text-black">
-            Temp: {item.main.temp}°C | Humidity: {item.main.humidity}% | Wind:{" "}
-            {item.wind.speed} m/s
-          </p>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
 
 
 

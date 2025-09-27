@@ -1,0 +1,39 @@
+{
+  "links": [
+   {
+      "name": "NASA POWER Data Access Viewer",
+      "url": "https://power.larc.nasa.gov/data-access-viewer/",
+      "description_en": "A NASA tool that provides solar, meteorological, and climatological data for any location worldwide, useful for weather and climate studies."
+    },
+    {
+      "name": "NASA GPM Data",
+      "url": "https://gpm.nasa.gov/data",
+      "description_en": "Provides global precipitation data from the NASA Global Precipitation Measurement (GPM) mission, ideal for rainfall and storm analysis."
+    },
+    {
+      "name": "OpenWeatherMap Historical Weather",
+      "url": "https://openweathermap.org/history",
+      "description_en": "Offers historical weather data including temperature, precipitation, wind, and more, useful for climate research and forecasting."
+    },
+    {
+      "name": "NOAA Climate Data Online",
+      "url": "https://www.ncdc.noaa.gov/cdo-web/",
+      "description_en": "Provides access to NOAA's global and US weather and climate data, including daily and hourly observations, climate normals, and more."
+    },
+    {
+      "name": "ECMWF ERA5 Reanalysis",
+      "url": "https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5",
+      "description_en": "High-resolution global climate reanalysis data from ECMWF, including temperature, precipitation, wind, and atmospheric variables."
+    },
+    {
+      "name": "Tornado Web Framework",
+      "url": "https://github.com/tornadoweb/tornado",
+      "description_en": "A Python web framework and asynchronous networking library, originally developed at FriendFeed. By using non-blocking network I/O, Tornado can scale to tens of thousands of open connections, making it ideal for long polling, WebSockets, and other applications that require a long-lived connection to each user."
+    },
+    {
+      "name": "OpenWeatherMap Current Weather API",
+      "url": "http://api.openweathermap.org/data/2.5/weather",
+      "description_en": "OpenWeatherMap API endpoint to get current weather data for any city worldwide, including temperature, humidity, wind, and weather conditions."
+    }
+  ]
+}

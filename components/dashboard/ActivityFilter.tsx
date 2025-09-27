@@ -5,17 +5,27 @@ import {
   Mountain, 
   Fish, 
   Waves, 
-  TreePine, 
+  Trees, 
+  Footprints, 
+  Bike, 
+  Flame,
+  
   Zap 
 } from 'lucide-react';
 
+// Adjusted icon mappings to use valid Lucide icons
 const activities = [
   { value: 'hiking', label: 'Hiking', icon: Mountain },
+  { value: 'walking', label: 'Walking', icon: Footprints },  // Replaced Walking
+  { value: 'cycling', label: 'Cycling', icon: Bike },        // Replaced Cycling
+  { value: 'barbecue', label: 'Barbecue', icon: Flame },     // Replaced Barbecue
   { value: 'fishing', label: 'Fishing', icon: Fish },
+  { value: 'ice_skating', label: 'Ice Skating', icon: Footprints },
   { value: 'beach', label: 'Beach', icon: Waves },
-  { value: 'picnic', label: 'Picnic', icon: TreePine },
+  { value: 'picnic', label: 'Picnic', icon: Trees },         // Replaced TreePine with Trees
   { value: 'sports', label: 'Sports', icon: Zap },
 ];
+
 
 interface ActivityFilterProps {
   activity: string;

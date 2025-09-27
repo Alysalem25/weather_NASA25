@@ -1,26 +1,56 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { 
-  Home, 
-  Map, 
-  Menu, 
-  X, 
-  Cloud
-} from 'lucide-react';
+import { Home, Map, Menu, X, Cloud } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // mobile menu
   const [showWidget, setShowWidget] = useState(false); // weather widget
+  const [weather, setWeather] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // ✅ Get user location + fetch weather
+  useEffect(() => {
+    if (showWidget) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const API_key = 'd2b2707de75447438890a61220a60021';
+            fetch(
+              `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&units=metric`
+            )
+              .then((res) => {
+                if (!res.ok) {
+                  throw new Error('Failed to fetch weather data');
+                }
+                return res.json();
+              })
+              .then((data) => {
+                setWeather(data);
+              })
+              .catch((err) => {
+                setError(err.message);
+              });
+          },
+          (err) => {
+            setError('Location access denied.');
+          }
+        );
+      } else {
+        setError('Geolocation is not supported in this browser.');
+      }
+    }
+  }, [showWidget]);
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Weather Dashboard', href: '/app/dashboard', icon: Map },
-{ name: 'Weather Dashboard', href: '/dashboard', icon: Map }
-    // { name: 'Real Weather Demo', href: '/demo', icon: Cloud },
+    { name: 'Weather Dashboard', href: '/dashboard', icon: Map },
+    { name: 'Data Resources', href: '/resources', icon: Map },
   ];
 
   return (
@@ -41,15 +71,14 @@ export default function Navbar() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
-                  target="_blank"
                   className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors duration-200"
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
 
               {/* Widget Toggle Button */}
@@ -58,7 +87,7 @@ export default function Navbar() {
                 size="sm"
                 onClick={() => setShowWidget(!showWidget)}
               >
-                {showWidget ? "Close Widget" : "Open Widget"}
+                {showWidget ? 'Close Widget' : 'Open Widget'}
               </Button>
             </div>
 
@@ -105,7 +134,7 @@ export default function Navbar() {
                       setIsOpen(false);
                     }}
                   >
-                    {showWidget ? "Close Widget" : "Open Widget"}
+                    {showWidget ? 'Close Widget' : 'Open Widget'}
                   </Button>
                 </div>
               </motion.div>
@@ -122,13 +151,25 @@ export default function Navbar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-20 right-4 w-80  rounded-lg shadow-lg p-4 z-50"
-            style={{ background: 'rgba(15, 23, 42, 0.95)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+            className="fixed top-20 right-4 w-80 rounded-lg shadow-lg p-4 z-50"
+            style={{
+              background: 'rgba(15, 23, 42, 0.95)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+            }}
           >
-            <h3 className="text-lg font-bold mb-2">Weather Widget</h3>
-            <p>🌤 Current temperature: 25°C</p>
-            <p>💨 Wind: 10 km/h</p>
-            <p>🌡 Humidity: 60%</p>
+            <h3 className="text-lg font-bold mb-2 text-white">Weather Widget</h3>
+            {error && <p className="text-red-400">{error}</p>}
+            {!error && !weather && <p className="text-slate-300">Loading...</p>}
+            {weather && (
+              <div className="text-slate-200">
+                <p>  Location: {weather.name}</p>
+                <p>🌡 Temp: {weather.main.temp}°C</p>
+                <p>💧 Humidity: {weather.main.humidity}%</p>
+                <p>🌬 Wind: {weather.wind.speed} m/s</p>
+                <p>☁ {weather.weather[0].description}</p>
+              </div>
+            )}
+
           </motion.div>
         )}
       </AnimatePresence>

@@ -30,11 +30,11 @@ export default function WeatherResults({ data }: WeatherResultsProps) {
 
   const getRecommendation = () => {
     const conditions = [
-      { name: 'rain', value: data.wet, threshold: 60, icon: '🌧️' },
-      { name: 'wind', value: data.windy, threshold: 70, icon: '💨' },
-      { name: 'heat', value: data.hot, threshold: 80, icon: '☀️' },
-      { name: 'cold', value: data.cold, threshold: 70, icon: '❄️' },
-      { name: 'discomfort', value: data.uncomfortable, threshold: 65, icon: '😓' },
+      { name: 'Temperature', value: data.temp, threshold: 60, icon: '🌧️' },
+      { name: 'Feels Like', value: data.feelsLike, threshold: 70, icon: '💨' },
+      { name: 'Wind Speed', value: data.windSpeed, threshold: 80, icon: '☀️' },
+      { name: 'Humidity', value: data.humidity, threshold: 70, icon: '❄️' },
+      // { name: 'discomfort', value: data.uncomfortable, threshold: 65, icon: '😓' },
     ];
 
     const highRiskConditions = conditions.filter((c) => c.value > c.threshold);
@@ -100,7 +100,7 @@ export default function WeatherResults({ data }: WeatherResultsProps) {
       );
 
       // If within 100km danger zone
-      if (dist <= 100) {
+      if (dist <= 1000) {
         return {
           type: record.Category,
           description: `⚠️ ${record.Category} detected nearby! Pressure: ${record.Pressure} hPa`,

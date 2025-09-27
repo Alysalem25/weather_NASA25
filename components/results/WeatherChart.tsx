@@ -22,7 +22,7 @@ export default function WeatherChart({ data }: WeatherChartProps) {
     { subject: 'Feels Like', A: data.feelsLike, fullMark: 100 },
     { subject: 'Wind Speed', A: data.windSpeed, fullMark: 100 },
     { subject: 'Humidity', A: data.humidity, fullMark: 100 },
-    { subject: 'Uncomfortable', A: data.feelsLike, fullMark: 100 },
+    // { subject: 'Uncomfortable', A: data.feelsLike, fullMark: 100 },
   ];
 
   return (
